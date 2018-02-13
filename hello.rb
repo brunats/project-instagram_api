@@ -10,15 +10,17 @@ require "instagram"
 #coding: utf-8
 set :bind, '0.0.0.0'
 
-#Config Instagram
-#
+# Configurações Instagram
+# 	scope permissões necessárias
+
+enable :sessions
+
 CALLBACK_URL = "http://192.168.0.105:4567/oauth/callback"
 
 Instagram.configure do |config|
   config.client_id = "c7dceb3cadb242fc86c8acf894e444e2"
   config.client_secret = "99a27b9b9f3346d9b408f462e1d5ca7c"
-  config.scope = "basic public_content"
-
+  config.scope = "likes comments public_content follower_list comments relationships"
   # For secured endpoints only
   #config.client_ips = '<Comma separated list of IPs>'
 end
@@ -36,7 +38,7 @@ get '/sobre' do
 end
 
 get '/oauth/connect' do
-  redirect Instagram.authorize_url(:redirect_uri => CALLBACK_URL)
+ 	redirect Instagram.authorize_url(:redirect_uri => CALLBACK_URL)
 end
 
 get "/oauth/callback" do
@@ -46,17 +48,17 @@ get "/oauth/callback" do
 end
 
 get "/user_recent_media" do
-	client = Instagram.client(:access_token => session[:access_token])
-	user = client.user
-	html = "<h1>#{user.username}'s recent media</h1>"
-	for media_item in client.user_recent_media
-	html << "<div style='float:left;'><img src='#{media_item.images.thumbnail.url}'><br/> <a href='/media_like/#{media_item.id}'>Like</a>  <a href='/media_unlike/#{media_item.id}'>Un-Like</a>  <br/>LikesCount=#{media_item.likes[:count]}</div>"
-	end
-	html
-end
-
-get "/logout" do
-	session[:access_token] = nil
-	"sair"
-	redirect "/"
+  client = Instagram.client(:access_token => session[:access_token])
+  user = client.user
+  html = "<h1>As 5 primeiras fotos de #{user.username}</h1>"
+  $i = 1
+  for media_item in client.user_recent_media
+    $i+=1
+    html << "<div style='float:left;'><img src='#{media_item.images.thumbnail.url}'><br/></div>"
+    if $i > 5 then
+      break
+    end
+  end
+  html << "<a href='/'>Voltar</a>"
+  html
 end
