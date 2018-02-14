@@ -1,0 +1,36 @@
+<% client = Instagram.client(:access_token => session[:access_token]) %>
+<% user = client.user %>
+<% $max_fotos = 5%>
+<h1> As <%=$max_fotos%> primeiras fotos de <%= user.username%></h1>
+<div class="row">
+<%
+$i = 1
+$tam_col = 4
+for media_item in client.user_recent_media
+$i+=1 
+%>
+  <div class="col-md-<%=$tam_col%>">
+    <div class="thumbnail">
+      <img src="<%= media_item.images.thumbnail.url %>">
+      <div class="caption">
+        <p>Lorem ipsum donec id elit non mi porta gravida at eget metus.</p>
+      </div>
+    </div>
+  </div>
+  <%
+  if $i == 4 then
+    $tam_col = 6
+  %>
+    </div>
+    <div class="row">
+  <%
+  end
+  if $i > $max_fotos then
+    break
+  end
+end
+%>
+</div>
+
+
+<a href="/home"> voltar</a>
