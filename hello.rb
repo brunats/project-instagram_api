@@ -1,6 +1,6 @@
 # --
 # pacotes necessários
-# => gem install sinatra thin haml
+# => gem install sinatra
 # => gem install instagram
 # http://192.168.0.102:4567/
 
@@ -57,5 +57,4 @@ get "/user_recent_media" do
 end
 
 get "/logout" do
-
 end
