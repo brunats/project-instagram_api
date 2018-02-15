@@ -1,6 +1,7 @@
 # --
 # http://192.168.0.102:4567/
 # http://192.168.0.105:4567/
+
 require 'sinatra'
 require 'instagram'
 
@@ -45,24 +46,32 @@ get '/oauth/callback' do
     erb :erro_login
   else
     redirect Instagram.authorize_url(redirect_uri: CALLBACK_URL)
-  end 
-    
+  end
 end
 
 get '/home' do
+  if session[:access_token]
     client = Instagram.client(access_token: session[:access_token])
     user = client.user
     @titulo = 'Instagram API'
     @subtitulo = 'Bem vindo ' + user.username
     erb :home
+  else
+    redirect '/'
+  end
 end
 
 get '/user_recent_media' do
+  if session[:access_token]
     @titulo = 'Instagram API'
     erb :fotos
+  else
+    redirect '/'
+  end
 end
 
 get '/logout' do
   @titulo = 'Instagram API'
   session[:access_token] = nil
+  redirect '/'
 end
