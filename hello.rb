@@ -1,11 +1,6 @@
 # --
-# pacotes necessarios
-# $ gem install sinatra
-# $ gem install instagram
-# $ gem install minitest
-# $ gem install sinatra rake rack-test
 # http://192.168.0.102:4567/
-
+# http://192.168.0.105:4567/
 require 'sinatra'
 require 'instagram'
 
@@ -27,38 +22,47 @@ Instagram.configure do |config|
   # config.client_ips = '<Comma separated list of IPs>'
 end
 
-class MyApp < Sinatra::Base
-  get '/' do
-    @titulo = 'Instagram API'
-    @subtitulo = 'O projeto mais top'
-    erb :index
-  end
+get '/' do
+  @titulo = 'Instagram API'
+  @subtitulo = 'O projeto mais top'
+  erb :index
+end
 
-  get '/oauth/connect' do
-    redirect Instagram.authorize_url(redirect_uri: CALLBACK_URL)
-  end
+get '/oauth/connect' do
+  redirect Instagram.authorize_url(redirect_uri: CALLBACK_URL)
+end
 
-  get '/oauth/callback' do
+get '/oauth/callback' do
+  if params[:code]
     par_code = params[:code]
     response = Instagram.get_access_token(par_code, redirect_uri: CALLBACK_URL)
     session[:access_token] = response.access_token
     redirect '/home'
-  end
+  elsif params[:error]
+    @titulo = 'Instagram API'
+    @subtitulo = 'O projeto mais top'
+    @msg_erro = params[:error_description]
+    erb :erro_login
+  else
+    redirect Instagram.authorize_url(redirect_uri: CALLBACK_URL)
+  end 
+    
+end
 
-  get '/home' do
+get '/home' do
     client = Instagram.client(access_token: session[:access_token])
     user = client.user
     @titulo = 'Instagram API'
     @subtitulo = 'Bem vindo ' + user.username
     erb :home
-  end
+end
 
-  get '/user_recent_media' do
+get '/user_recent_media' do
     @titulo = 'Instagram API'
     erb :fotos
-  end
+end
 
-  get '/logout' do
-    @titulo = 'Instagram API'
-  end
+get '/logout' do
+  @titulo = 'Instagram API'
+  session[:access_token] = nil
 end
