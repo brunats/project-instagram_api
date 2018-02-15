@@ -54,7 +54,7 @@ get '/home' do
     client = Instagram.client(access_token: session[:access_token])
     user = client.user
     @titulo = 'Instagram API'
-    @subtitulo = 'Bem vindo ' + user.username
+    @subtitulo = 'Bem vindo ' + user.full_name
     erb :home
   else
     redirect '/'

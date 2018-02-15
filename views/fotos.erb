@@ -1,7 +1,8 @@
 <% client = Instagram.client(:access_token => session[:access_token]) %>
 <% user = client.user %>
 <% $max_fotos = 5%>
-<h1> As <%=$max_fotos%> primeiras fotos de <%= user.username%></h1>
+<h1> As <%=$max_fotos%> primeiras fotos de <%= user.full_name %></h1>
+<p></p>
 <div class="row">
 <%
 $i = 1
@@ -12,8 +13,10 @@ $i+=1
   <div class="col-md-<%=$tam_col%>">
     <div class="thumbnail">
       <img src="<%= media_item.images.thumbnail.url %>">
+      <% 
+      %>
       <div class="caption">
-        <p>Lorem ipsum donec id elit non mi porta gravida at eget metus.</p>
+        <p> <%=media_item.caption.text %></p>
       </div>
     </div>
   </div>
