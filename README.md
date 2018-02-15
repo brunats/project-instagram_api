@@ -2,19 +2,20 @@
 
 O objetivo desse projeto é criar uma aplicação que utilizando da API do Instagram mostre as cinco últimas fotos do usuário.
 
-
 ## Instalação
 Instalar as seguintes gem's:
 
-	$ gem install sinatra
+```	$ gem install sinatra
 	$ gem install instagram
 	$ gem install minitest
 	$ gem install sinatra rake rack-test
+```
 
+É necessário também criar um cliente no [Instagram Developers](https://www.instagram.com/developer/), adicionar o Client ID e Client Secret respectivos no código e adicionar um novo "Valid redirect URIs".
 
-##Dependências
+## Dependências
  - Ruby versão 2.3 ou mais
 
-##Testes
+## Testes
 
 ## Thanks
