@@ -1,12 +1,12 @@
 require './hello'
 require 'test/unit'
-# require 'minitest/autorun'
 require 'rack/test'
 require 'test/unit/capybara'
 
 set :environment, :test
 
-class Projectinstagram_api < Test::Unit::TestCase
+# Projectinstagram_api classe de testes
+class TestMyApp < Test::Unit::TestCase
   include Rack::Test::Methods
   include Capybara::DSL
 
@@ -25,9 +25,9 @@ class Projectinstagram_api < Test::Unit::TestCase
   end
 
   def test_home_page
-    visit("/")
-    within("h1") do
-      assert_equal("Sejam Bem Vindos", text)
+    visit('/')
+    within('h1') do
+      assert_equal('Sejam Bem Vindos', text)
     end
   end
 

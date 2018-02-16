@@ -9,6 +9,7 @@ require 'sinatra/base'
 # Configuracoes Instagram
 #   scope permissoes necessarias
 
+# MyApp classe principal da aplicacao
 class MyApp < Sinatra::Base
   # coding: utf-8
 
