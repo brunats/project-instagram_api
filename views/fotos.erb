@@ -1,37 +1,53 @@
 <% client = Instagram.client(:access_token => session[:access_token]) %>
 <% user = client.user %>
 <% $max_fotos = 5%>
-<h1> As <%=$max_fotos%> primeiras fotos de <%= user.full_name %></h1>
-<p></p>
-<div class="row">
-<%
-$i = 1
-$tam_col = 4
-for media_item in client.user_recent_media
-$i+=1 
-%>
-  <div class="col-md-<%=$tam_col%>">
-    <div class="thumbnail">
-      <img src="<%= media_item.images.thumbnail.url %>">
-      <% 
+<div class="container-fluid text-center">    
+  <div class="row content">
+    <div class="col-sm-10 text-left"> 
+      <h1>As <%=$max_fotos%> primeiras fotos de <%= user.full_name %></h1>
+      <hr>
+      <div class="row">
+      <%
+      $i = 1
+      $tam_col = 4
+      for media_item in client.user_recent_media
+      $i+=1 
       %>
-      <div class="caption">
-        <p> <%=media_item.caption.text %></p>
+        <div class="col-md-<%=$tam_col%>">
+          <div class="thumbnail">
+            <img src="<%= media_item.images.thumbnail.url %>">
+            <% 
+            %>
+            <div class="caption">
+              <p> <%=media_item.caption.text %></p>
+            </div>
+          </div>
+        </div>
+        <%
+        if $i == 4 then
+          $tam_col = 6
+        %>
+          </div>
+          <div class="row">
+        <%
+        end
+        if $i > $max_fotos then
+          break
+        end
+      end
+      %>
       </div>
     </div>
-  </div>
-  <%
-  if $i == 4 then
-    $tam_col = 6
-  %>
+    <div class="col-sm-2 sidenav">
+      <div class="well">
+        <p><a href="/home"> voltar</a></p>
+      </div>
+      <hr>
+      <div class="well">
+        <p><a href="/logout">Sair</a></p>
+      </div>
+      <hr>
     </div>
-    <div class="row">
-  <%
-  end
-  if $i > $max_fotos then
-    break
-  end
-end
-%>
+  </div>
 </div>
-<a href="/home"> voltar</a>
+<br><br><br><br>
