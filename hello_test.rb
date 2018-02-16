@@ -31,7 +31,11 @@ class TestMyApp < Test::Unit::TestCase
     end
   end
 
+  def page
+  	Capybara.current_session
+	end
   # def test_home
-
   # def test_connect
+  # def test_fotos
+
 end
