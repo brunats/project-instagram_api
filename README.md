@@ -17,13 +17,14 @@ Instalar as seguintes gem's:
 ## Dependências
  - Ruby versão 2.3 ou mais
  - Ruby Dev
-
- ''' $ sudo apt-get install ruby-dev
- ''' $ sudo apt-get install ruby
+ ```
+	$ sudo apt-get install ruby-dev
+	$ sudo apt-get install ruby
+ ```
 
 ## Testes
-'''
+```
 	$ ruby hello_test.rb
-'''
+```
 
 ## Thanks
